@@ -1,0 +1,28 @@
+[package]
+name = "webapi"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+rocket = { version = "0.5.0-rc.3", features = ["json"] }
+chrono = { version = "0.4.31", features = ["serde"] }
+sqlx = { version = "0.7.2", features = [
+        "postgres",
+        "runtime-tokio",
+        "tls-rustls",
+        "uuid",
+        "json",
+        "macros",
+        "chrono",
+] }
+jsonwebtoken = "8.3.0"
+dotenvy = "0.15.7"
+serde_json = "1.0.107"
+cookie = "0.18.0"
+anyhow = "1.0.75"
+echodb = "0.4.0"
+argon2 = "0.5.2"
+uuid = { version = "1.4.1", features = ["serde", "v4", "fast-rng"] }
