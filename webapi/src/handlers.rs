@@ -15,6 +15,8 @@ use rocket::State;
 use sqlx::Row;
 use sqlx::{Pool, Postgres};
 use rocket::serde::{Serialize, Deserialize};
+use rocket::response::status::NoContent;
+
 
 #[post("/login", format = "application/json", data = "<info>")]
 pub async fn login(
@@ -52,6 +54,8 @@ pub async fn login(
     cookies.add(cookie);
     Ok(entry.id.to_string())
 }
+
+
 
 #[post("/register", format = "application/json", data = "<info>")]
 pub async fn register(
@@ -99,7 +103,7 @@ pub async fn register(
 }
 
 #[post("/message", format = "application/json", data = "<message>")]
-pub async fn post(
+pub async fn message(
     db: &State<Pool<Postgres>>,
     _key: JWT,
     message: Json<Message>,
@@ -109,17 +113,22 @@ pub async fn post(
     let msg = message.into_inner();
     let date = chrono::Utc::now();
     println!("JWT {:?}", _key);
+    // let id = match crate::database::get_uuid(&**db, msg.username.clone()).await {
+    //     Ok(id) => id,
+    //     Err(err) => return Err(NetworkResponse::InternalServerError(err.to_string())),
+    // };
+
     let _res = queue.send(msg.clone());
-    let res = match sqlx::query("INSERT INTO messages (sender_id, message, sent_at) VALUES ($1, $2, $3)")
-        .bind(&msg.sender_id)
-        .bind(&msg.message)
-        .bind(&date)
-        .execute(&**db)
-        .await
-    {
-        Ok(_) => (),
-        Err(err) => return Err(NetworkResponse::InternalServerError(err.to_string())),
-    };
+    // let res = match sqlx::query("INSERT INTO messages (sender_id, message, sent_at) VALUES ($1, $2, $3)")
+    //     .bind(&id)
+    //     .bind(&msg.message)
+    //     .bind(&date)
+    //     .execute(&**db)
+    //     .await
+    // {
+    //     Ok(_) => (),
+    //     Err(err) => return Err(NetworkResponse::InternalServerError(err.to_string())),
+    // };
     Ok(())
 }
 
@@ -167,3 +176,23 @@ fn login_user<'c>(creds: Credentials) -> Result<Cookie<'c>, NetworkResponse> {
 pub fn health() -> rocket::http::Status {
     rocket::http::Status::Ok
 }
+
+// #[options("/login")]
+// pub fn login_preflight() -> NoContent {
+//     NoContent
+// }
+//
+// #[options("/register")]
+// pub fn register_preflight() -> NoContent {
+//     NoContent
+// }
+//
+// #[options("/message")]
+// pub fn message_preflight() -> NoContent {
+//     NoContent
+// }
+//
+// #[options("/events")]
+// pub fn events_preflight() -> NoContent {
+//     NoContent
+// }
