@@ -15,8 +15,8 @@ The frontent was completely outside of the project's scope and thus I did not pa
 
 - In order to run the project you will need a working postgres containter in docker.  
 - Complete the **DATABASE_URL** env variable in the /webapi folder with the url from postgres.    
-- After starting the database start the backend using `*cargo run*` in the webapi directory.  
-- Then start the frontend by running `*npm run dev*` in the /app/app folder.  
+- After starting the database start the backend using `cargo run` in the webapi directory.  
+- Then start the frontend by running `npm run dev` in the /app/app folder.  
 
 ## Misc  
 
