@@ -1,6 +1,6 @@
 # Chat app
 
-This is a working demo of a simple chat app with a web interface.
+This is a working demo of a simple realtime chat app with a web interface.
 
 ## How does it work?
 
@@ -13,10 +13,10 @@ The frontent was completely outside of the project's scope and thus I did not pa
 
 ## How to run
 
-In order to run the project you will need a working postgres containter in docker.  
-After that add the **DATABASE_URL** .env variable in the /webapi folder.  
-After starting the database start the backend using *cargo run* in the webapi directory.  
-Then start the frontend by running *npm run dev* in the /app/app folder.  
+- In order to run the project you will need a working postgres containter in docker.  
+- Complete the **DATABASE_URL** env variable in the /webapi folder with the url from postgres.    
+- After starting the database start the backend using `*cargo run*` in the webapi directory.  
+- Then start the frontend by running `*npm run dev*` in the /app/app folder.  
 
 ## Misc  
 
