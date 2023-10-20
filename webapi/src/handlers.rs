@@ -119,16 +119,17 @@ pub async fn message(
     // };
 
     let _res = queue.send(msg.clone());
-    // let res = match sqlx::query("INSERT INTO messages (sender_id, message, sent_at) VALUES ($1, $2, $3)")
-    //     .bind(&id)
-    //     .bind(&msg.message)
-    //     .bind(&date)
-    //     .execute(&**db)
-    //     .await
-    // {
-    //     Ok(_) => (),
-    //     Err(err) => return Err(NetworkResponse::InternalServerError(err.to_string())),
-    // };
+    let res = match sqlx::query("INSERT INTO messages (username, sender_id, message, sent_at) VALUES ($1, $2, $3, $4)")
+        .bind(&msg.username)
+        .bind(&msg.sender_id)
+        .bind(&msg.message)
+        .bind(&date)
+        .execute(&**db)
+        .await
+    {
+        Ok(_) => (),
+        Err(err) => return Err(NetworkResponse::InternalServerError(err.to_string())),
+    };
     Ok(())
 }
 

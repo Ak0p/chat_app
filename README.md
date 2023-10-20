@@ -1,13 +1,24 @@
 # Chat app
 
-## The app exposes apis for: 
-- **posting messages on /messages** 
-- **retrieving a stream of messages on /events**
-- **registering an account on /register**
-- **loggin in on /login**  
+This is a working demo of a simple chat app with a web interface.
 
-> For an user to use the app they must first register with and account, log in with that account and then send messages on the /chat page. 
-> The authentication was done using a JWT embedded in a cookie.  
-___  
-> The scope of this project was to get a grasp on async programming, REST APIS and working with databases.
-> The front end was a bit of a challenge and a bit beyond of what I planned with this project. 
+## How does it work?
+
+An user has to register an account and log in in order to use the app.  
+The chat page has a simple interface which displays a prompt and the message history.
+
+## Scope  
+The scope of this project was learning to work with REST API's, async programming and databases.  
+The frontent was completely outside of the project's scope and thus I did not pay much attention to it.  
+
+## How to run
+
+In order to run the project you will need a working postgres containter in docker.  
+After that add the **DATABASE_URL** .env variable in the /webapi folder.  
+After starting the database start the backend using *cargo run* in the webapi directory.  
+Then start the frontend by running *npm run dev* in the /app/app folder.  
+
+## Misc  
+
+For the app to run you **need** to set the **SECRET_KEY** env variable in the same file as the **DATABASE_URL** variable.  
+Generate a new key using openssl. 

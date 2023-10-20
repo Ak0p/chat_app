@@ -9,21 +9,14 @@ use argon2::{
 use rocket::serde::{Deserialize, Serialize};
 use sqlx::{FromRow, Postgres, Pool};
 
-#[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
-#[serde(crate = "rocket::serde")]
-pub struct MessageData {
-    // #[field(validate = len(..30))]
-    // pub room: String,
-    pub sender_id: uuid::Uuid,
-    pub message: String,
-    pub sent_at: chrono::DateTime<chrono::Utc>,
-}
+
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Message {
     // #[field(validate = len(..30))]
     // pub room: String,
+    pub sender_id: uuid::Uuid,
     pub username: String,
     pub message: String,
     pub sent_at: chrono::DateTime<chrono::Utc>,
@@ -60,16 +53,16 @@ impl User {
     }
 }
 
-pub async fn get_uuid(db: &Pool<Postgres>, username: String ) -> Result<uuid::Uuid, sqlx::Error> {
-    let res = match sqlx::query_as::<_, User>("SELECT * FROM users WHERE username = $1")
-        .bind(username)
-        .fetch_optional(db)
-        .await {
-            Ok(res) => res,
-            Err(err) => return Err(err),
-        };
-    Ok(res.unwrap().id)
-}
+// pub async fn get_uuid(db: &Pool<Postgres>, username: String ) -> Result<uuid::Uuid, sqlx::Error> {
+//     let res = match sqlx::query_as::<_, User>("SELECT * FROM users WHERE username = $1")
+//         .bind(username)
+//         .fetch_optional(db)
+//         .await {
+//             Ok(res) => res,
+//             Err(err) => return Err(err),
+//         };
+//     Ok(res.unwrap().id)
+// }
 
 
 

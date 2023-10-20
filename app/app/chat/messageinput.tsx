@@ -1,11 +1,13 @@
 'use client';
 import React, { useState } from 'react';
+import { UUID } from 'crypto';
 
-interface MessageInputProps {
+export interface MessageInputProps {
   username: string;
+  sender_id: string;
 }
 
-export default function MessageInput({ username }: MessageInputProps) {
+export default function MessageInput({ username, sender_id }: MessageInputProps) {
   const [message, setMessage] = useState('');
 
   const handleSendMessage = async () => {
@@ -15,7 +17,8 @@ export default function MessageInput({ username }: MessageInputProps) {
     }
 
     const messageData = {
-      username: 'vericu',
+      sender_id,
+      username,
       message,
       sent_at: new Date().toISOString(), // Add the sent_at field with the current UTC timestamp
     };

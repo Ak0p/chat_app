@@ -1,8 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-// import { redirect } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 interface AuthFormProps {
   val: 'login' | 'register';
 }
@@ -10,6 +9,7 @@ interface AuthFormProps {
 const AuthForm: React.FC<AuthFormProps> = ({ val }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleAuth = async () => {
     console.log('Authenticating user...');
@@ -23,41 +23,20 @@ const AuthForm: React.FC<AuthFormProps> = ({ val }) => {
     console.log('Sending data:', data);
 
     try {
-      // console.log('in try, ',val, data);
-      console.log("vvvvv", JSON.stringify(data));
-      // Implement your API call here based on the 'type' (register or login)
-      // You can use the 'type' prop to determine which API endpoint to call.
-      // Example: if (type === 'register') make a registration API call
-      // Example: if (type === 'login') make a login API call
-
-      // After the API call, you can handle the response accordingly
-      // For example, display a success message or error message.
       if (val === 'register') {
-        // console.log('Registering user with:', data);
-        // send the data in a POST request to localhost:8000/register
         const response = await fetch('http://localhost:8000/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
 
-        // parse the response
-        // const parsedResponse = await response.json();
-        // // check if the response is successful
-        // // if successful, redirect /login
-        // // if unsuccessful, display an error message and reload component
-        // // (you can display an error message by setting a state variable)
-        // if (parsedResponse.success) {
-        //   window.location.href = '/login';
-        // }
-        // else {
-        //   alert(parsedResponse.message);
-        //   window.location.reload();
-        // }
+        if (response.ok) {
+          router.push('/login')
+        } else {
+          alert(response.statusText);
+        }
 
       } else if (val === 'login') {
-        // console.log('Logging in user with:', data);
-        // send the data in a POST request to localhost:8000/login
         const response = await fetch('http://localhost:8000/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -65,21 +44,20 @@ const AuthForm: React.FC<AuthFormProps> = ({ val }) => {
           body: JSON.stringify(data),
         });
 
-
-         
-        // check if the response is successful
-        // if successful, redirect /chat
-        // if (response.status === 200) {
-        //  // return redirect("/chat");
-        //  const router = useRouter();
-        //  router.push('/chat');
-        // }
-        // // if unsuccessful, display an error message and reload component
-        // // (you can display an error message by setting a state variable)
-        // else {
-        //   alert(response.statusText);
-        //   window.location.reload();
-        // }
+        if (response.ok) {
+          try {
+          console.log('response:', response);
+          const sender_id = await response.text();
+          localStorage.setItem('sender_id', sender_id);
+          localStorage.setItem('username', username); 
+          } catch (error) {
+            console.log('Jsonu matii:', error);
+          }
+          router.push('/chat')
+        } else {
+          alert(response.statusText);
+        }
+    
       } else {
         console.log('Invalid type:', val);
       }
