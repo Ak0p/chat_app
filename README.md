@@ -4,8 +4,8 @@ This is a working demo of a simple chat app with a web interface.
 
 ## How does it work?
 
-An user has to register an account and log in in order to use the app.  
-The chat page has a simple interface which displays a prompt and the message history.
+The user has to register an account and log in in order to use the app.  
+On the chat page is simple interface which displays a prompt and the message history.
 
 ## Scope  
 The scope of this project was learning to work with REST API's, async programming and databases.  
